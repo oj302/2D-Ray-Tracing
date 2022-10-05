@@ -7,16 +7,14 @@ public class Main
     public final int width, height, hZ;
     private final JFrame window;
     private final JPanel canvas;
-    public static Shape shape;
+    private ArrayList<Shape> shapes = new ArrayList<>();
     public int translation =3;
 
-    public Main(int wwidth, int hheight, int frames, Color lightColour)
+    public Main(int wwidth, int hheight, int frames, Color lightColour, Light light)
     {
         width = wwidth;
         height = hheight;
         hZ = frames;
-
-        Light light = new Light(new double[] {50, 350});
 
         //graphical stuff
         {
@@ -30,10 +28,8 @@ public class Main
                     g.fillRect(0, 0, width, height);
 
                     g.setColor(new Color(0x000000));
-                    shape.paint(g, true);
+                    for(Shape s : shapes) { s.paint(g, true); }
 
-                    ArrayList<Shape> shapes = new ArrayList<>();
-                    shapes.add(shape);
                     g.setColor(lightColour);
                     light.getLightShape(shapes, width, height).paint(g, true);
 
@@ -86,8 +82,10 @@ public class Main
 
     public static void main(String[] args)
     {
-        shape = new Shape(new double[][] {{255, 60}, {302, 24}, {288, 250}, {500, 302}, {405, 376}, {354, 503}, {244, 522}, {100, 370}});
-        Main m = new Main(800, 600, 30, new Color(255, 234, 0, 128));
+        Light light = new Light(new double[] {50, 350});
+        Main m = new Main(800, 600, 30, new Color(255, 234, 0, 128), light);
+        m.shapes.add(new Shape(new double[][] {{255, 60}, {302, 24}, {288, 250}, {500, 302}, {405, 376}, {354, 503}, {244, 522}, {100, 370}}));
+
     }
 }
 

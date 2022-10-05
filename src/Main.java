@@ -8,6 +8,7 @@ public class Main
     private final JFrame window;
     private final JPanel canvas;
     public static Shape shape;
+    public int translation =3;
 
     public Main(int wwidth, int hheight, int frames, Color lightColour)
     {
@@ -15,7 +16,7 @@ public class Main
         height = hheight;
         hZ = frames;
 
-        Light light = new Light(new double[] {505, 500});
+        Light light = new Light(new double[] {50, 350});
 
         //graphical stuff
         {
@@ -49,8 +50,10 @@ public class Main
             window.setVisible(true);
         }
 
+
         //the loop
         {
+
             Thread loop = new Thread()
             {
                 public void run()
@@ -61,7 +64,9 @@ public class Main
                     {
                         canvas.repaint();
 
-                        light.translate(0, -1);
+                        light.translate(0, translation);
+                        if(light.getCoordinates()[1] < 10) { translation = 3; }
+                        if(light.getCoordinates()[1] > height - 10) { translation = -3; }
 
                         try
                         {
@@ -73,7 +78,7 @@ public class Main
                 }
             };
 
-            //loop.start();
+            loop.start();
         }
 
 
